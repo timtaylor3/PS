@@ -1,15 +1,23 @@
+write-host "`n"
 Write-Host "This script collects all of the registry data required for USB Insertion analsyis"
 
 $DRIVE= Read-Host -Prompt "Enter Mounted Drive Letter"
 $PROFILE_PATH = $DRIVE + '\Users' 
 $SYSTEM_REG = $DRIVE + '\Windows\System32\Config\SYSTEM'
 
+write-host "`n"
+
+Write-Host 'Get the TimeZone for documentation'
+Get-ForensicTimezone -HivePath $SYSTEM_REG | Format-Table
+
 Write-Host "Get USBSTOR info"
 Get-ForensicRegistryKey -HivePath $SYSTEM_REG -Key ControlSet001\Enum\USBSTOR | Format-Table Name, WriteTime
 
 Write-Host "Get MountedDevices info"
 Get-ForensicRegistryValue -HivePath $SYSTEM_REG -Key MountedDevices | Format-Table Name
+
 Write-Host "Get NTUSER.DAT info"
+write-host "`n"
 $USER_DIR = Get-ChildItem -Path $PATH -Filter NTUSER.DAT -Recurse -Depth 1 -Name -ErrorAction SilentlyContinue -Force
 Foreach($FILE in $USER_DIR)
 { 
