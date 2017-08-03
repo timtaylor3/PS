@@ -5,11 +5,10 @@ $PROFILE_PATH = $DRIVE + '\Users'
 $SYSTEM_REG = $DRIVE + '\Windows\System32\Config\SYSTEM'
 
 Write-Host "Get USBSTOR info"
-Get-ForensicRegistryKey -HivePath $SYSTEM_REG -Key ControlSet001\Enum\USBSTOR | Format-Table Name
+Get-ForensicRegistryKey -HivePath $SYSTEM_REG -Key ControlSet001\Enum\USBSTOR | Format-Table Name, WriteTime
 
 Write-Host "Get MountedDevices info"
 Get-ForensicRegistryValue -HivePath $SYSTEM_REG -Key MountedDevices | Format-Table Name
-
 Write-Host "Get NTUSER.DAT info"
 $USER_DIR = Get-ChildItem -Path $PATH -Filter NTUSER.DAT -Recurse -Depth 1 -Name -ErrorAction SilentlyContinue -Force
 Foreach($FILE in $USER_DIR)
