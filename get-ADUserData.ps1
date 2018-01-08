@@ -1,20 +1,34 @@
 Import-Module ActiveDirectory
 
+# Expects a two column spaced delimeted text file, no header.
+# Column one should be a valid email address, the second column should be a text string which represents a compromised password
+
 # Pull in list of users in question.
-$user_list = Get-Content 'fill in file path and location'
-$user_data=@()
+$user_list = $user_list = Get-Content 'input file path' 
 
 # Define properties to retrieve
-$properties = @('DisplayName', 'SamAccountName', 'extensionAttribute6', 'Company', 'Department', 'Title', 'PasswordLastSet', 'LastLogonDate', 'Enabled', 'Manager')
+$properties = @('Mail', 'Name', 'SamAccountName', 'extensionAttribute6', 'Company', 'Department', 'Title', 'PasswordLastSet', 'LastLogonDate', 'Enabled', 'Manager' )
+
+#Retreive the data into an array
+$user_data=@()
 
 foreach ($user in $user_list)
    {
-      $user_data += Get-ADUser -filter { mail -like $user } -Property $properties -ErrorAction Continue  | 
-                    Select DisplayName, SamAccountName, extensionAttribute6, Company, Department, Title, PasswordLastSet, LastLogonDate, Enabled,@{N='Manager';E={(Get-ADUser $_.Manager).Name}}  
+      $Mail, $Password = $user.Split(" ")
+
+      $user_data += Get-ADUser -filter { mail -like $Mail } -Property $properties -ErrorAction Continue  | 
+                    Select Mail, Name, SamAccountName, extensionAttribute6, Company, Department, Title, PasswordLastSet, LastLogonDate, Enabled, @{N='Manager';E={(Get-ADUser $_.Manager).Name}}, 
+                                                                                                                                                 @{N='Manager Email';E={(Get-ADUser $_.Manager).UserPrincipalName}}  |
+                    Where-object {$_.Enabled -eq "True"} | 
+                    Add-Member @{CompromisedPassword=$Password} -PassThru            
    }
 
-# View data
-$user_data | Select-Object -Property $properties| Sort-Object -Property DisplayName -Descending | Format-Table -Property $properties
+# Change the properties to reflect the added fields.
+$properties = @( 'Name', 'Mail', 'SamAccountName',  'extensionAttribute6', 'Company', 'Department', 'Title', 'PasswordLastSet', 'LastLogonDate', 'Manager', 'Manager Email', 'CompromisedPassword' )
 
-# Export to CSV
-$user_data | Export-Csv 'S:\TimTaylor\ad_output.csv' -NoTypeInformation -Force
+# Output the data to the screen
+$user_data | Sort-Object -Property DisplayName | 
+             Format-Table -Property $properties
+
+# Output the data to a CSV
+$user_data | Export-Csv 'Output path' -NoTypeInformation -Force
