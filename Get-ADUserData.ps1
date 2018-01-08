@@ -4,7 +4,7 @@ Import-Module ActiveDirectory
 # Column one should be a valid email address, the second column should be a text string which represents a compromised password
 
 # Pull in list of users in question.
-$user_list = $user_list = Get-Content 'input file path' 
+$user_list = Get-Content 'input file path' 
 
 # Define properties to retrieve
 $properties = @('Mail', 'Name', 'SamAccountName', 'extensionAttribute6', 'Company', 'Department', 'Title', 'PasswordLastSet', 'LastLogonDate', 'Enabled', 'Manager' )
