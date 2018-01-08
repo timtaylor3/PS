@@ -1,4 +1,4 @@
-Import-Module ActiveDirectory
+mport-Module ActiveDirectory
 
 # Expects a two column spaced delimeted text file, no header.
 # Column one should be a valid email address, the second column should be a text string which represents a compromised password
@@ -27,7 +27,7 @@ foreach ($user in $user_list)
 $properties = @( 'Name', 'Mail', 'SamAccountName',  'extensionAttribute6', 'Company', 'Department', 'Title', 'PasswordLastSet', 'LastLogonDate', 'Manager', 'Manager Email', 'CompromisedPassword' )
 
 # Output the data to the screen
-$user_data | Sort-Object -Property DisplayName | 
+$user_data | Sort-Object -Property Name | 
              Format-Table -Property $properties
 
 # Output the data to a CSV
