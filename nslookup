@@ -1,0 +1,24 @@
+# Not tested
+
+$ips = Read-Host -Prompt 'Input IP File'
+
+foreach ($ip in $ips)
+{
+    $addresses = $null
+
+    try {
+        $addresses = Resolve-DnsName $ip -ErrorAction Stop | Select-Object NameHost 
+        }
+    catch { 
+        $addresses = "Server IP cannot resolve."
+    }
+
+    foreach($address in $addresses) {
+        if ($address.NameHost) {
+            write-host $ip, $address.NameHost
+        } else
+        { 
+            write-host $ip, $address
+        }
+    }
+}
