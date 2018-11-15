@@ -1,5 +1,6 @@
 # Returns one event the for the given event log
-# REF: https://blogs.technet.microsoft.com/ashleymcglone/2013/08/28/powershell-get-winevent-xml-madness-getting-details-from-event-logs/
+#  REF: https://blogs.technet.microsoft.com/ashleymcglone/2013/08/28/powershell-get-winevent-xml-madness-getting-details-from-event-logs/
+
 $EVT_PATH = Read-Host -Prompt "Enter the path to the event log"
 #$PARSED_EVT = Read-Host -Prompt "Enter output path and filename"
 
@@ -25,9 +26,12 @@ function Process_Events($Events){
         # Iterate through each one of the XML message properties            
         For ($i=0; $i -lt $eventXML.Event.EventData.Data.Count; $i++) {            
             # Append these as object properties     
-            Add-Member -InputObject $Event -MemberType NoteProperty -Force -Name  $eventXML.Event.EventData.Data[$i].name -Value $eventXML.Event.EventData.Data[$i].'#text'     
+            Add-Member -InputObject $Event -MemberType NoteProperty -Force `
+                -Name  $eventXML.Event.EventData.Data[$i].name `
+                -Value $eventXML.Event.EventData.Data[$i].'#text'     
         }            
     }    
     
     return $Events 
 }
+
