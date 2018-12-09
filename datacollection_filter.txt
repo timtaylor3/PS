@@ -1,0 +1,46 @@
+#####
+# File system artifacts.
+#####
+/[$]Boot
+/[$]LogFile
+/[$]MFT
+/[$]Extend/[$]UsnJrnl
+/[$]Secure
+
+
+#####
+# Windows System Registry hives
+#####
+/Windows/System32/config/(SAM|SOFTWARE|SECURITY|SYSTEM)
+/Windows/System32/config/(SAM[.]LOG[1-9]|SOFTWARE[.]LOG[1-9]|SECURITY[.]LOG[1-9]|SYSTEM[.]LOG[1-9])
+
+#####
+# Recycle Bin 
+#####
+/[$]Recycle.Bin
+/[$]Recycle.Bin/.+
+/[$]Recycle.Bin/.+/.+
+
+#####
+# Windows Execution Artifacts
+# including System32\Tasks for future processing
+# including CIM database for future processing
+#####
+/Windows/Appcompat/Programs/RecentFileCache[.]bcf
+/Windows/Appcompat/Programs/Amcache[.]hve
+
+#####
+# Prefetch files.
+#####
+/Windows/Prefetch/.+
+#####
+
+#####
+# Recent file activity.
+#####
+/Users/.+/AppData/Roaming/Microsoft/Windows/Recent/.+[.]LNK
+/Users/.+/AppData/Roaming/Microsoft/Office/Recent/.+[.]LNK
+/Users/.+/.+/.+[.]LNK
+/Users/.+/AppData/Roaming/Microsoft/Windows/Recent/Automaticdestinations/.+[.]automaticDestinations-ms
+/Users/.+/AppData/Roaming/Microsoft/Windows/Recent/Customdestinations/.+[.]customDestinations-ms
+/Users/.+/AppData/Local/ConnectedDevicesPlatform/.+/ActivitiesCache.db
