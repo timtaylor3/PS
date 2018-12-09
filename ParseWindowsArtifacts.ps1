@@ -7,6 +7,8 @@
 This is a work in progress.
 #>
 
+$host_os = [System.Environment]::OSVersion.Platform
+
 ##############################
 # Get User Input
 ##############################
