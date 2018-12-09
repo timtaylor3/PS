@@ -1,4 +1,6 @@
 <#
+There be bugs.  Fix is coming.
+
  Extract key artifacts from an image file using Plaso
  Run selected Eric Zimmerman's Tools against the extracted data 
  Download the tools from these locations: 
