@@ -12,14 +12,19 @@
 # Windows System Registry hives
 #####
 /Windows/System32/config/(SAM|SOFTWARE|SECURITY|SYSTEM)
-/Windows/System32/config/(SAM[.]LOG[1-9]|SOFTWARE[.]LOG[1-9]|SECURITY[.]LOG[1-9]|SYSTEM[.]LOG[1-9])
+
+#####
+# User Registry hives
+#####
+/Users/.+/AppData/Local/Microsoft/Windows/Usrclass[.]dat
+/Users/.+/NTUSER.DAT
 
 #####
 # Recycle Bin 
 #####
-/[$]Recycle.Bin
-/[$]Recycle.Bin/.+
-/[$]Recycle.Bin/.+/.+
+#/[$]Recycle.Bin
+#/[$]Recycle.Bin/.+
+#/[$]Recycle.Bin/.+/.+
 
 #####
 # Windows Execution Artifacts
