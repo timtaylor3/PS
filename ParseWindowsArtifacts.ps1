@@ -413,5 +413,7 @@ $tln_out = Join-Path -Path $plaso_out_dir  -ChildPath $tln_file
 $Parameter = " -o l2tcsv -w " + $tln_out + " " + $plaso_file
 $CMD = $psort + $Parameter
 Write-Host $CMD
+Invoke-Expression $CMD
+Write-Host "Ready for Timeline Explorer"
 
 Write-Host "Finished"
