@@ -4,6 +4,7 @@
  Download the tools from these locations: 
      https://github.com/log2timeline/plaso/releases
      https://ericzimmerman.github.io/#!index.md 
+This is a work in progress.
 #>
 
 ##############################
@@ -15,6 +16,7 @@ $image_file = Read-Host -Prompt "Enter the image file to process"
 
 $tools = Join-Path -Path $PSScriptRoot -ChildPath "Tools"
 $plaso = Join-Path -Path $PSScriptRoot -ChildPath "Plaso"
+$collection_filter =  Join-Path -Path $tools -ChildPath "datacollection_filter.txt"
 
 $AmcacheParser = Join-Path -Path $tools -ChildPath "AmcacheParser.exe" 
 $AppCompatCacheParser = Join-Path -Path $tools -ChildPath "AppCompatCacheParser.exe" 
@@ -72,7 +74,6 @@ $SECURITY = Join-Path -Path $registries -ChildPath "SECURITY"
 # Collect the data with Plaso's image_export
 #######################################
 
-$collection_filter =  Join-Path -Path $tools -ChildPath "datacollection_filter.txt"
 $parameters = " -f " + $collection_filter + " -w " + $Exports_Path + " " + $image_file
 
 if ($host_os -eq 'Win32NT') {
