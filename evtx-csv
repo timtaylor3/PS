@@ -1,0 +1,20 @@
+<#
+I don't recommend running this script against the entire winevt dir.
+#>
+$EVT_PATH = Read-Host -Prompt "Enter the path to the event logs"
+$PARSED_EVT = Read-Host -Prompt "Enter output path"
+
+$FILES = Get-ChildItem -LiteralPath  $EVT_PATH -Include *.evtx 
+
+foreach ($FILE in $FILES){
+    Try {
+        $outfile = [System.IO.Path]::GetFileNameWithoutExtension($FILE.PSPath) + ".csv"
+        $outpath = Join-Path $PARSED_EVT -ChildPath $outfile
+        
+        write-host 'Processing: '$FILE.FullName
+        Get-WinEvent -filterHashTable @{Path=$FILE.PSPath} -ErrorAction SilentlyContinue | Export-Csv -NoTypeInformation -UseCulture -Path $outpath
+                  
+    } Catch [Exception] {
+        Write-Host $_.Exception
+    }      
+}
